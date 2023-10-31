@@ -1,26 +1,123 @@
-// Function to validate each row in the Sudoku grid
-function validateSudokuRows() {
-    for (var i = 0; i < sudokuGrid.length; i++) {
-        var result = isSudokuGridValid(sudokuGrid[i], i + 1); 
-        if (result !== "Line is correct") {
-            console.log(result);
+function F31() {
+    var incorrectRows = []; 
+
+    for (var i = 0; i < 9; i++) {
+        var seen = new Set(); 
+        var isIncorrect = false; 
+
+        for (var j = 0; j < 9; j++) {
+            var num = sudokuGrid[i][j];
+
+            if (seen.has(num)) {
+                isIncorrect = true;
+                break; 
+            }
+
+            seen.add(num);
         }
+
+        if (isIncorrect) {
+            incorrectRows.push(i + 1); 
+        }
+    }
+
+    var tableHTML = '<table border="1" style="border-collapse: collapse; border: 2px solid black;">';
+
+    for (var i = 0; i < 9; i++) {
+        var extraStyle = 'border-right: 2px solid black;'; 
+        if (i % 3 === 2) {
+            extraStyle += 'border-bottom: 2px solid black;'; 
+        }
+
+        tableHTML += '<tr>';
+        for (var j = 0; j < 9; j++) {
+            tableHTML += '<td style="padding: 5px; ' + extraStyle + '">' + sudokuGrid[i][j] + '</td>'; 
+        }
+        tableHTML += '</tr>';
+    }
+
+    tableHTML += '</table';
+
+    if (incorrectRows.length > 0) {
+        var errorTableHTML = '<table border="1" style="border-collapse: collapse; border: 2px solid black; margin-top:20px">'; 
+        for (var i = 0; i < incorrectRows.length; i++) {
+            errorTableHTML += '<tr>';
+            errorTableHTML += '<td style="padding: 10px;">Line ' + incorrectRows[i] + ' incorrect</td>';
+            errorTableHTML += '<td style="padding: 10px;">' + sudokuGrid[incorrectRows[i] - 1].join('</td><td style="padding: 10px;">') + '</td>'; 
+            errorTableHTML += '</tr>';
+        }
+        errorTableHTML += '</table';
+
+        document.getElementById('tableErrorsContainer').innerHTML += errorTableHTML; 
     }
 }
 
-// Function to validate each column in the Sudoku grid
-function validateSudokuColumns() {
+loadSudokuData();
+F31();
+
+
+
+
+function F32() {
+    var incorrectColumns = []; 
+
     for (var j = 0; j < 9; j++) {
-        var column = [];
+        var seen = new Set(); 
+        var isIncorrect = false; 
+
         for (var i = 0; i < 9; i++) {
-            column.push(sudokuGrid[i][j]);
+            var num = sudokuGrid[i][j];
+
+            if (seen.has(num)) {
+                isIncorrect = true;
+                break; 
+            }
+
+            seen.add(num);
         }
-        var result = isSudokuGridValid(column); // Call isSudokuGridValid for each column
-        if (result !== "El array bidimensional es válido.") {
-            console.log(`Column ${j + 1} incorrect ${column.join(' ')}`);
+
+        if (isIncorrect) {
+            incorrectColumns.push(j + 1); 
         }
     }
+
+    var tableHTML = '<table border="1" style="border-collapse: collapse; border: 2px solid black;">';
+
+    for (var i = 0; i < 9; i++) {
+        var extraStyle = 'border-right: 2px solid black;';
+        if (i % 3 === 2) {
+            extraStyle += 'border-bottom: 2px solid black;'; 
+        }
+
+        tableHTML += '<tr>';
+        for (var j = 0; j < 9; j++) {
+            tableHTML += '<td style="padding: 5px; ' + extraStyle + '">' + sudokuGrid[i][j] + '</td>'; 
+        }
+        tableHTML += '</tr>';
+    }
+
+    tableHTML += '</table';
+
+    if (incorrectColumns.length > 0) {
+        var errorTableHTML = '<table border="1" style="border-collapse: collapse; border: 2px solid black; margin-top: 20px">'; 
+        for (var j = 0; j < incorrectColumns.length; j++) {
+            errorTableHTML += '<tr>';
+            errorTableHTML += '<td style="padding: 10px;">Column ' + incorrectColumns[j] + ' incorrect</td>';
+            var columnValues = [];
+            for (var i = 0; i < 9; i++) {
+                columnValues.push(sudokuGrid[i][incorrectColumns[j] - 1]);
+            }
+            errorTableHTML += '<td style="padding: 10px;">' + columnValues.join('</td><td style="padding: 10px;">') + '</td>'; 
+            errorTableHTML += '</tr>';
+        }
+        errorTableHTML += '</table';
+
+        document.getElementById('tableErrorsContainer').innerHTML += errorTableHTML; 
+    }
 }
+
+loadSudokuData();
+F32();
 
 // Function to validate each region in the Sudoku grid
 function validateSudokuRegions() {
@@ -42,7 +139,5 @@ function validateSudokuRegions() {
 
 // Assuming isSudokuGridValid is defined elsewhere
 
-// Call the validation functions
-validateSudokuRows();
-validateSudokuColumns();
+
 validateSudokuRegions();

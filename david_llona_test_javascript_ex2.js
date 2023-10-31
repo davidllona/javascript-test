@@ -7,7 +7,7 @@ function isSudokuGridValid(sudokuGrid) {
 
             for (var j = 0; j < 9; j++) {
                 var num = sudokuGrid[i][j];
-
+                
                 // Verify if the number is an integer between 1 and 9 and hasn't been seen before
                 if (Number.isInteger(num) && num >= 1 && num <= 9 && !seen.has(num)) {
                     seen.add(num);

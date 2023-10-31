@@ -8,6 +8,8 @@ function loadSudokuData() {
         var rowData = array_number[i].split(' ');
         for (var j = 0; j < 9; j++) {
             sudokuGrid[i][j] = parseInt(rowData[j]);
+
+            console.log(sudokuGrid [j][1])
         }
     }
 }
@@ -32,7 +34,7 @@ function displaySudokuTable() {
                 extraStyle += 'border-right: 2px solid black; border-bottom: 2px solid black;';
             }
 
-            tableHTML += '<td style="padding: 15px; ' + extraStyle + '">' + sudokuGrid[i][j] + '</td>';
+            tableHTML += '<td style="padding: 10px; ' + extraStyle + '">' + sudokuGrid[i][j] + '</td>';
         }
         tableHTML += '</tr>';
     }
